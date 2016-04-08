@@ -1,8 +1,6 @@
 package de.base.engine;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -30,16 +28,18 @@ public class Display extends JFrame implements Runnable {
 	private Thread thread;
 	private int frames;
 	private int ticks;
-	
+		
 	private Game game;
+	private InputHandler input;
 
-	public Display(Game game, int width, int height) {
+	public Display(int width, int height) {
 		this.size = new Dimension(width, height);
 		setPreferredSize(size);
-		display = this;
-		this.game = game;
+		Display.display = this;
 		
-		
+		input = new InputHandler(this, game);
+		Game.input = Display.getDisplay().getInput();
+
 	}
 
 	public void start() {
@@ -48,7 +48,7 @@ public class Display extends JFrame implements Runnable {
 	}
 
 	public static Display getDisplay() {
-		return display;
+		return Display.display;
 	}
 
 	public void init() {
@@ -75,6 +75,13 @@ public class Display extends JFrame implements Runnable {
 
 		start();
 		
+	}
+	
+	public int getWidth(){
+		return this.size.width;
+	}
+	public int getHeight(){
+		return this.size.height;
 	}
 
 	public void run() {
@@ -124,6 +131,8 @@ public class Display extends JFrame implements Runnable {
 				frames = 0;
 				ticks = 0;
 
+				setTitle("FPS: "+ this.frames + " - UPS: " + this.ticks);
+				
 			}
 		}
 	}
@@ -154,6 +163,7 @@ public class Display extends JFrame implements Runnable {
 	
 	private void tick() {
 		game.update();
+		input.tick();
 	}
 
 	private void render() {
@@ -168,5 +178,13 @@ public class Display extends JFrame implements Runnable {
 		g = getGraphics();
 		g.drawImage(screen, 0, 0, size.width, size.height, 0, 0, pixel.width, pixel.height, null);
 		g.dispose();
+	}
+	
+	public InputHandler getInput() {
+		return input;
+	}
+
+	public void addGame(Game game) {
+		this.game = game;
 	}
 }

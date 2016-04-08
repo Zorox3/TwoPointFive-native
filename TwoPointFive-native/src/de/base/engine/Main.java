@@ -6,7 +6,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Display display  = new Display(new Game(), 800, 600);
+		Display display  = new Display(1600, 1000);
+		display.setSyncToFrames(59);
+		display.addGame(new Game());
 		display.init();
 		
 		

@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public enum Texture {
 
-	PLACEHOLDER("placeholder");
+	PLACEHOLDER("placeholder"), GRASS("grass"), STONE("stone"), SAND("sand"), DIRT("dirt");
 
 	private String name;
 
@@ -14,6 +14,10 @@ public enum Texture {
 
 	public BufferedImage getTexture() {
 		return ImageLoader.getImage(name);
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 }
