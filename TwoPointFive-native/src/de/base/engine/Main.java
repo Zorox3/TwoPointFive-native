@@ -6,13 +6,19 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Display display  = new Display(1600, 1000);
-		display.setSyncToFrames(59);
-		display.addGame(new Game());
-		display.init();
-		
-		
-		new ImageLoader("res");
+		ImageLoader loader = new ImageLoader("res");
+
+		if (loader.isFinish()) {
+			Display display = new Display(1600, 1000);
+			display.setSyncToFrames(60);
+			display.setVsync(false);
+			display.init();
+
+			display.addGame(new Game());
+			
+			display.start();
+
+		}
 
 	}
 

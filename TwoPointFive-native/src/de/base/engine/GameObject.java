@@ -14,8 +14,9 @@ public abstract class GameObject {
 		
 	}
 	
-	public void delete(){
+	public GameObject delete(){
 		remove = true;
+		return this;
 	}
 	
 	public boolean getRemove(){

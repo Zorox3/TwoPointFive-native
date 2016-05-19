@@ -2,6 +2,7 @@ package de.base.game.gameObjects;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import de.base.engine.GameObject;
 import de.base.engine.Texture;
@@ -14,6 +15,8 @@ public abstract class RenderObject extends GameObject {
 	protected int height;
 	protected Color color = null;
 	protected Texture texture = null;
+	protected BufferedImage textureImage = null;
+	protected boolean animated = false;
 
 	public RenderObject(int x, int y, int width, int height) {
 		this.x = x;
@@ -30,6 +33,7 @@ public abstract class RenderObject extends GameObject {
 
 	public RenderObject setTexture(Texture texture) {
 		this.texture = texture;
+		this.textureImage = texture.getTexture();
 		return this;
 	}
 
@@ -37,10 +41,21 @@ public abstract class RenderObject extends GameObject {
 		if (color != null) {
 			g.setColor(Color.RED);
 			g.fillRect(x, y, width, height);
-		} else if (texture != null) {
-			g.drawImage(texture.getTexture(), x, y, width, height, null);
+		} else if (textureImage != null) {
+			g.drawImage(textureImage, x, y, width, height, null);
 
 		}
+	}	
+	public void setTextureImage(BufferedImage textureImage) {
+		this.textureImage = textureImage;
+	}
+	
+	public boolean isAnimated() {
+		return animated;
+	}
+
+	public void setAnimated(boolean animated) {
+		this.animated = animated;
 	}
 
 	public int getX() {

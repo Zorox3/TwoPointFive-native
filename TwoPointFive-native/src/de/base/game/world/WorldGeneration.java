@@ -19,9 +19,7 @@ public class WorldGeneration {
 	
 	public WorldGeneration(World world) {
 		
-		this.world  =world;
-		
-
+		this.world  = world;
 		
 	}
 	
@@ -39,8 +37,9 @@ public class WorldGeneration {
 				int ty = (y * Tile.TILE_SIZE)
 						+ (chunk.getPosY() * Chunk.CHUNK_SIZE * Tile.TILE_SIZE);
 
-				Tile blockType = new Tile(tx, ty, Texture.PLACEHOLDER);
+				Tile blockType;
 	
+		
 				
 				if (perlinnoise[x][y] >= 4f && perlinnoise[x][y] <= 8f) {
 					blockType = new Stone(tx, ty);

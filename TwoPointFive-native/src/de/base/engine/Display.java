@@ -1,9 +1,12 @@
 package de.base.engine;
 
+import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
@@ -11,9 +14,13 @@ import de.base.game.Game;
 
 
 
-public class Display extends JFrame implements Runnable {
+public class Display extends Canvas implements Runnable {
 
-	private static Display display;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static Display instance;
 	private boolean vsync = true;
 	private int syncToFrames = 30;
 	private boolean border = true;
@@ -21,13 +28,13 @@ public class Display extends JFrame implements Runnable {
 
 	private Dimension size;
 	private boolean isRunning = true;
-	private Image screen;
 
 	private Graphics g;
-	private Dimension pixel;
 	private Thread thread;
 	private int frames;
 	private int ticks;
+	
+	public static JFrame frame;
 		
 	private Game game;
 	private InputHandler input;
@@ -35,53 +42,44 @@ public class Display extends JFrame implements Runnable {
 	public Display(int width, int height) {
 		this.size = new Dimension(width, height);
 		setPreferredSize(size);
-		Display.display = this;
+		Display.instance = this;
 		
 		input = new InputHandler(this, game);
-		Game.input = Display.getDisplay().getInput();
+		Game.input = getInput();
 
 	}
 
 	public void start() {
 		thread = new Thread(this, "Display Thread");
 		thread.start();
+		isRunning = true;
 	}
 
 	public static Display getDisplay() {
-		return Display.display;
+		return Display.instance;
 	}
 
 	public void init() {
 
+		frame = new  JFrame();
+		
 		if (!border) {
-			setUndecorated(true);
+			frame.setUndecorated(true);
 
 		}
-		setLocationRelativeTo(null);
+		frame.setLocationRelativeTo(null);
 
-		pack();
+		frame.add(this);
+		frame.pack();
 
-		setResizable(false);
+		frame.setResizable(false);
 
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
+		frame.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
 				- getSize().height / 2);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-
-		pixel = new Dimension(getWidth(), getHeight());
-
-		screen = createVolatileImage(pixel.width, pixel.height);
-
-		start();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		
-	}
-	
-	public int getWidth(){
-		return this.size.width;
-	}
-	public int getHeight(){
-		return this.size.height;
 	}
 
 	public void run() {
@@ -96,7 +94,7 @@ public class Display extends JFrame implements Runnable {
 		int ticks = 0;
 		int frames = 0;
 
-		while (true) {
+		while (isRunning) {
 
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nsPerTick;
@@ -131,7 +129,7 @@ public class Display extends JFrame implements Runnable {
 				frames = 0;
 				ticks = 0;
 
-				setTitle("FPS: "+ this.frames + " - UPS: " + this.ticks);
+				frame.setTitle("FPS: "+ this.frames + " - UPS: " + this.ticks);
 				
 			}
 		}
@@ -167,8 +165,19 @@ public class Display extends JFrame implements Runnable {
 	}
 
 	private void render() {
-		g = screen.getGraphics();
+		
+		BufferStrategy bs = getBufferStrategy();
+		
+		if(bs == null){
+			createBufferStrategy(3);
+			return;
+		}
+		
+		g = bs.getDrawGraphics();
 
+		g.setColor(Color.WHITE);
+		g.drawRect(0, 0, frame.getWidth(), frame.getHeight());
+		
 		
 		
 		game.render(g);
@@ -176,8 +185,8 @@ public class Display extends JFrame implements Runnable {
 
 		
 		g = getGraphics();
-		g.drawImage(screen, 0, 0, size.width, size.height, 0, 0, pixel.width, pixel.height, null);
 		g.dispose();
+		bs.show();
 	}
 	
 	public InputHandler getInput() {

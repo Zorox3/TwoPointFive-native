@@ -1,12 +1,17 @@
 package de.base.game;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
+
+import javax.swing.JFrame;
 
 import de.base.engine.Display;
 import de.base.engine.GameObject;
+import de.base.engine.ImageLoader;
 import de.base.engine.InputHandler;
 import de.base.engine.Texture;
 import de.base.game.entities.Player;
@@ -26,21 +31,21 @@ public class Game {
 	
 	public static Random globalRandom = new Random();
 	
-	private Display display;
+	private JFrame display;
 	
 	public Game() {
 
-		display = Display.getDisplay();
+		display = Display.getDisplay().frame;
 		
 		this.objects = new ArrayList<>();
 		this.removeObjects = new ArrayList<>();
-
-		player = new Player(display.getWidth() / 2 - Tile.TILE_SIZE / 2, display.getHeight() / 2 - Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE * 2, Texture.SAND); 
-		System.out.println(display.getHeight() / 2 - Tile.TILE_SIZE);
 		this.world = new World();
 
+		player = new Player(display.getWidth() / 2 - Tile.TILE_SIZE / 2, display.getHeight() / 2 - Tile.TILE_SIZE, 64, 96, world); 
 		
 		objects.add(player);
+		
+
 		
 	}
 	
@@ -50,7 +55,6 @@ public class Game {
 				removeObjects.add(go);
 			}
 			go.update();
-
 		}
 
 		for (GameObject go : removeObjects) {
