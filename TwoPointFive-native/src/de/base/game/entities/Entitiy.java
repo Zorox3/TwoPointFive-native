@@ -1,7 +1,7 @@
 package de.base.game.entities;
 
-import de.base.engine.Texture;
-import de.base.game.gameObjects.RenderObject;
+import de.base.engine.Objects.RenderObject;
+import de.base.engine.textures.Texture;
 
 public abstract class Entitiy extends RenderObject{
 

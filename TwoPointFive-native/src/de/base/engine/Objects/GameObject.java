@@ -1,11 +1,10 @@
-package de.base.engine;
+package de.base.engine.Objects;
 
 import java.awt.Graphics;
 
 public abstract class GameObject {
 
 	private boolean remove = false;
-	
 	public void update(){
 		
 	}
@@ -22,5 +21,7 @@ public abstract class GameObject {
 	public boolean getRemove(){
 		return remove;
 	}
+	
+
 	
 }

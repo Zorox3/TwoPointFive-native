@@ -1,11 +1,12 @@
 
-package de.base.engine;
+package de.base.engine.inputhandler;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.base.engine.render.Display;
 import de.base.game.Game;
 
 public class InputHandler implements KeyListener {

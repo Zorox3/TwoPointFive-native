@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.List;
 
-import de.base.engine.Display;
+import de.base.engine.render.Display;
 import de.base.game.Game;
 
 public class Chunk {

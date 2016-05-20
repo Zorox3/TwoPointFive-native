@@ -2,9 +2,9 @@ package de.base.game.world;
 
 import java.awt.Graphics;
 
-import de.base.engine.Texture;
+import de.base.engine.Objects.RenderObject;
+import de.base.engine.textures.Texture;
 import de.base.game.Game;
-import de.base.game.gameObjects.RenderObject;
 
 public class Tile extends RenderObject{
 

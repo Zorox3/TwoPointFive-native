@@ -1,6 +1,6 @@
 package de.base.game.world.tiles;
 
-import de.base.engine.Texture;
+import de.base.engine.textures.Texture;
 import de.base.game.world.Tile;
 
 public class Dirt extends Tile{

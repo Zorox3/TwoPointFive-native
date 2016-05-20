@@ -1,15 +1,15 @@
-package de.base.engine;
+package de.base.engine.render;
 
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import de.base.engine.inputhandler.InputHandler;
 import de.base.game.Game;
 
 

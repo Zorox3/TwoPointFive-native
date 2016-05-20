@@ -1,19 +1,15 @@
 package de.base.game;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.swing.JFrame;
 
-import de.base.engine.Display;
-import de.base.engine.GameObject;
-import de.base.engine.ImageLoader;
-import de.base.engine.InputHandler;
-import de.base.engine.Texture;
+import de.base.engine.Objects.GameObject;
+import de.base.engine.inputhandler.InputHandler;
+import de.base.engine.render.Display;
 import de.base.game.entities.Player;
 import de.base.game.world.Chunk;
 import de.base.game.world.Tile;
@@ -35,7 +31,7 @@ public class Game {
 	
 	public Game() {
 
-		display = Display.getDisplay().frame;
+		display = Display.frame;
 		
 		this.objects = new ArrayList<>();
 		this.removeObjects = new ArrayList<>();

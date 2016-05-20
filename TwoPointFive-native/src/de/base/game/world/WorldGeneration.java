@@ -2,7 +2,6 @@ package de.base.game.world;
 
 import java.util.ArrayList;
 
-import de.base.engine.Texture;
 import de.base.game.Game;
 import de.base.game.world.tiles.Dirt;
 import de.base.game.world.tiles.Grass;
@@ -15,12 +14,9 @@ public class WorldGeneration {
 	private float[][] whitenosie;
 	private float[][] perlinnoise;
 	
-	private World world;
 	
 	public WorldGeneration(World world) {
-		
-		this.world  = world;
-		
+				
 	}
 	
 	public ArrayList<Tile> generateChunk(Chunk chunk){
@@ -67,28 +63,28 @@ public class WorldGeneration {
 	
 	
 	
-	private Chunk placeBlockCross(Chunk chunk, int x, int y, Tile tile) {
-
-		Tile tileAtPos = chunk.getTileByCoords(x, y);
-		tileAtPos = tile;
-		if (x - 1 > 0){
-			tileAtPos = chunk.getTileByCoords(x-1, y);
-		tileAtPos = tile;}
-
-		if (x + 1 < Chunk.CHUNK_SIZE){
-			tileAtPos = chunk.getTileByCoords(x+1, y);
-		tileAtPos = tile;}
-
-		if (y - 1 > 0){
-			tileAtPos = chunk.getTileByCoords(x, y-1);
-		tileAtPos = tile;}
-
-		if (y + 1 < Chunk.CHUNK_SIZE){
-			tileAtPos = chunk.getTileByCoords(x, y+1);
-		tileAtPos = tile;}
-
-		return chunk;
-	}
+//	private Chunk placeBlockCross(Chunk chunk, int x, int y, Tile tile) {
+//
+//		Tile tileAtPos = chunk.getTileByCoords(x, y);
+//		tileAtPos = tile;
+//		if (x - 1 > 0){
+//			tileAtPos = chunk.getTileByCoords(x-1, y);
+//		tileAtPos = tile;}
+//
+//		if (x + 1 < Chunk.CHUNK_SIZE){
+//			tileAtPos = chunk.getTileByCoords(x+1, y);
+//		tileAtPos = tile;}
+//
+//		if (y - 1 > 0){
+//			tileAtPos = chunk.getTileByCoords(x, y-1);
+//		tileAtPos = tile;}
+//
+//		if (y + 1 < Chunk.CHUNK_SIZE){
+//			tileAtPos = chunk.getTileByCoords(x, y+1);
+//		tileAtPos = tile;}
+//
+//		return chunk;
+//	}
 
 	private float[][] GenerateWhiteNoise(int width, int height) {
 		 // Seed to 0 for testing

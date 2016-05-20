@@ -1,20 +1,18 @@
 package de.base.game.entities;
 
-import de.base.engine.Animation;
-import de.base.engine.ImageLoader;
-import de.base.engine.Texture;
+import de.base.engine.textures.Animation;
+import de.base.engine.textures.ImageLoader;
+import de.base.engine.textures.Texture;
 import de.base.game.Game;
 import de.base.game.world.World;
 
 public class Player extends Entitiy {
 
 	private int maxSpeed = 12;
-	
+
 	private int offsetX;
 	private int offsetY;
 
-	private Animation walkingAnimationUp, walkingAnimationDown, walkingAnimationLeft, walkingAnimationRight;
-	
 	public Player(int posX, int posY, int width, int height, World world) {
 		super(posX, posY, width, height, Texture.PLACEHOLDER);
 
@@ -23,11 +21,10 @@ public class Player extends Entitiy {
 
 		setTextureImage(ImageLoader.getImage(Texture.PLAYER_WALK.getName() + ":0_0"));
 
-		walkingAnimationLeft = new Animation(Texture.PLAYER_WALK, maxSpeed-getSpeed(),0, 8);
-		walkingAnimationRight = new Animation(Texture.PLAYER_WALK, maxSpeed-getSpeed(), 1, 8);
-		walkingAnimationUp = new Animation(Texture.PLAYER_WALK, maxSpeed-getSpeed(), 2, 8);
-		walkingAnimationDown = new Animation(Texture.PLAYER_WALK, maxSpeed-getSpeed(), 3, 8);
-
+		animations.put("walkLeft", new Animation(Texture.PLAYER_WALK, maxSpeed - getSpeed(), 0, 8));
+		animations.put("walkRight", new Animation(Texture.PLAYER_WALK, maxSpeed - getSpeed(), 1, 8));
+		animations.put("walkUp", new Animation(Texture.PLAYER_WALK, maxSpeed - getSpeed(), 2, 8));
+		animations.put("walkDown", new Animation(Texture.PLAYER_WALK, maxSpeed - getSpeed(), 3, 8));
 
 	}
 
@@ -54,44 +51,62 @@ public class Player extends Entitiy {
 	public void update() {
 		isMoving = false;
 
-		if (Game.input.up.isPressed()) {
+		/**
+		 * WALKING ANIMATIONS START
+		 */
+		if ((Game.input.left.isPressed() && Game.input.up.isPressed())) {
 			addOffsetY(1);
-			isMoving = true;
-			playAnimation(walkingAnimationUp);
-		}
-		if (Game.input.down.isPressed()) {
-			addOffsetY(-1);
-			isMoving = true;
-			playAnimation(walkingAnimationDown);
-
-		}
-		if (Game.input.left.isPressed()) {
 			addOffsetX(1);
-			isMoving = true;
-			playAnimation(walkingAnimationLeft);
 
-		}
-		if (Game.input.right.isPressed()) {
+			isMoving = true;
+			playAnimation(animations.get("walkUp"));
+		} else if ((Game.input.right.isPressed() && Game.input.up.isPressed())) {
+			addOffsetY(1);
 			addOffsetX(-1);
-			isMoving = true;
-			playAnimation(walkingAnimationRight);
 
+			isMoving = true;
+			playAnimation(animations.get("walkUp"));
+		} else if ((Game.input.left.isPressed() && Game.input.down.isPressed())) {
+			addOffsetY(-1);
+			addOffsetX(1);
+
+			isMoving = true;
+			playAnimation(animations.get("walkDown"));
+		} else if ((Game.input.right.isPressed() && Game.input.down.isPressed())) {
+			addOffsetY(-1);
+			addOffsetX(-1);
+
+			isMoving = true;
+			playAnimation(animations.get("walkDown"));
+		} else {
+			if (Game.input.up.isPressed()) {
+				addOffsetY(1);
+				isMoving = true;
+				playAnimation(animations.get("walkUp"));
+			} else if (Game.input.down.isPressed()) {
+				addOffsetY(-1);
+				isMoving = true;
+				playAnimation(animations.get("walkDown"));
+
+			}
+			if (Game.input.left.isPressed()) {
+				addOffsetX(1);
+				isMoving = true;
+				playAnimation(animations.get("walkLeft"));
+
+			} else if (Game.input.right.isPressed()) {
+				addOffsetX(-1);
+				isMoving = true;
+				playAnimation(animations.get("walkRight"));
+
+			}
 		}
 
 		if (!isMoving) {
-			walkingAnimationUp.reset(this);
-			walkingAnimationDown.reset(this);
-			walkingAnimationLeft.reset(this);
-			walkingAnimationRight.reset(this);
-
+			resetAllAnimations();
 		}
+		/**
+		 * WALKING ANIMATION END
+		 */
 	}
-	
-	private void playAnimation(Animation a){
-		a.run();
-		if (a.isUpdated()) {
-			setTextureImage(a.getFrameImage());
-		}
-	}
-
 }

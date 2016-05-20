@@ -1,4 +1,4 @@
-package de.base.engine;
+package de.base.engine.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,14 +10,10 @@ import java.util.HashMap;
 
 public class FileLoader {
 
-	private String path;
 	private HashMap<String, File> files = new HashMap<>();
 
 	public FileLoader(String path) {
-		this.path = path;
-
 		listDir(new File(path));
-
 	}
 
 	public HashMap<String, File> getFiles() {

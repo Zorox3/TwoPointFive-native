@@ -1,4 +1,4 @@
-package de.base.engine;
+package de.base.engine.textures;
 
 import java.awt.image.BufferedImage;
 

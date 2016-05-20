@@ -1,5 +1,7 @@
 package de.base.engine;
 
+import de.base.engine.render.Display;
+import de.base.engine.textures.ImageLoader;
 import de.base.game.Game;
 
 public class Main {

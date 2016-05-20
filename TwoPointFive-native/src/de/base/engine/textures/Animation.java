@@ -1,16 +1,14 @@
-package de.base.engine;
+package de.base.engine.textures;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.base.game.entities.Player;
+import de.base.engine.Objects.RenderObject;
 
 public class Animation {
 
 	private int speed;
-	private int sizeX;
-	private int sizeY;
 	private int imageCount;
 	private List<BufferedImage> subImages;
 	private BufferedImage frameImage;
@@ -29,8 +27,6 @@ public class Animation {
 		
 		frameImage = subImages.get(0);
 		this.speed = speed;
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
 		this.imageCount = imageCount;
 
 		timer = speed - 2;
@@ -52,7 +48,7 @@ public class Animation {
 
 	}
 
-	public void reset(Player p, int... params) {
+	public void reset(RenderObject p, int... params) {
 		if (!isReset()) {
 			if (params.length == 0) {
 				timer = 0;
@@ -84,14 +80,6 @@ public class Animation {
 
 	public int getImageCount() {
 		return imageCount;
-	}
-
-	public int getSizeX() {
-		return sizeX;
-	}
-
-	public int getSizeY() {
-		return sizeY;
 	}
 
 	public int getSpeed() {

@@ -1,4 +1,4 @@
-package de.base.engine;
+package de.base.engine.textures;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import de.base.engine.util.FileLoader;
 
 public class ImageLoader {
 
