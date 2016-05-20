@@ -6,7 +6,7 @@ import java.util.List;
 
 public class World {
 
-	public static final int WORLD_SIZE = 2;
+	public static final int WORLD_SIZE = 10;
 
 	private List<Chunk> chunks;
 
@@ -18,18 +18,16 @@ public class World {
 
 		generation = new WorldGeneration(this);
 
-		generateChunk();
-
 		centerPoint = new Point((WORLD_SIZE * Chunk.CHUNK_SIZE * Tile.TILE_SIZE / 2) * -1, (WORLD_SIZE * Chunk.CHUNK_SIZE * Tile.TILE_SIZE / 2) * -1);
 
 	}
 
-	private void generateChunk() {
-		for (int x = 0; x < WORLD_SIZE; x++) {
-			for (int y = 0; y < WORLD_SIZE; y++) {
-				chunks.add(new Chunk(x, y));
-			}
-		}
+	public int generateChunk(int x, int y) {
+		Chunk chunk = new Chunk(x, y);
+		chunk.generateChunk();
+			chunks.add(chunk);
+		
+		return chunks.size();
 	}
 
 	public List<Chunk> getChunks() {
@@ -41,7 +39,6 @@ public class World {
 	}
 
 	public Point getCenter() {
-		System.out.println("World Center: " + centerPoint);
 		return centerPoint;
 	}
 

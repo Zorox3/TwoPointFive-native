@@ -19,58 +19,68 @@ public class Game {
 
 	private List<GameObject> objects;
 	private List<GameObject> removeObjects;
-	
-	private World world;
+
+	public World world;
 
 	public static InputHandler input;
 	private static Player player;
-	
+
 	public static Random globalRandom = new Random();
-	
+
 	private JFrame display;
-	
+	private static boolean initilized = false;
+
 	public Game() {
 
 		display = Display.frame;
-		
+
 		this.objects = new ArrayList<>();
 		this.removeObjects = new ArrayList<>();
-		this.world = new World();
 
-		player = new Player(display.getWidth() / 2 - Tile.TILE_SIZE / 2, display.getHeight() / 2 - Tile.TILE_SIZE, 64, 96, world); 
-		
+		//init();
+
+	}public static boolean isInitilized() {
+		return initilized;
+	}
+
+	public void init() {
+
+		player = new Player(display.getWidth() / 2 - Tile.TILE_SIZE / 2, display.getHeight() / 2 - Tile.TILE_SIZE, 64, 96, world);
 		objects.add(player);
 		
-
-		
+		initilized = true;
 	}
-	
-	public void update() {
-		for (GameObject go : objects) {
-			if (go.getRemove()) {
-				removeObjects.add(go);
-			}
-			go.update();
-		}
 
-		for (GameObject go : removeObjects) {
-			objects.remove(go);
+	public void update() {
+		if (initilized) {
+
+			for (GameObject go : removeObjects) {
+				objects.remove(go);
+			}
+
+			for (GameObject go : objects) {
+				if (go.getRemove()) {
+					removeObjects.add(go);
+				}
+				go.update();
+			}
 		}
 	}
 
 	public void render(Graphics g) {
-		for (Chunk chunk : world.getChunks()) {
-			if(!chunk.onDisplay())
-				continue;
-			chunk.render(g);
+		if (initilized) {
+			for (Chunk chunk : world.getChunks()) {
+				if (!chunk.onDisplay()) continue;
+				chunk.render(g);
+			}
+			for (GameObject go : objects) {
+				go.render(g);
+			}
 		}
-		for (GameObject go : objects) {
-			go.render(g);
-		}
-		
 	}
+
 	public static Player getPlayer() {
 		return player;
 	}
-	
+
 }

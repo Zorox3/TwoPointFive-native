@@ -12,38 +12,36 @@ import javax.swing.JFrame;
 import de.base.engine.inputhandler.InputHandler;
 import de.base.game.Game;
 
-
-
 public class Display extends Canvas implements Runnable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Display instance;
+	public static Display instance;
 	private boolean vsync = true;
 	private int syncToFrames = 30;
 	private boolean border = true;
 	private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
 	private Dimension size;
-	private boolean isRunning = true;
+	private boolean isRunning = false;
 
 	private Graphics g;
 	private Thread thread;
 	private int frames;
 	private int ticks;
-	
+
 	public static JFrame frame;
-		
+
 	private Game game;
-	private InputHandler input;
+	public InputHandler input;
 
 	public Display(int width, int height) {
 		this.size = new Dimension(width, height);
 		setPreferredSize(size);
 		Display.instance = this;
-		
+
 		input = new InputHandler(this, game);
 		Game.input = getInput();
 
@@ -61,8 +59,8 @@ public class Display extends Canvas implements Runnable {
 
 	public void init() {
 
-		frame = new  JFrame();
-		
+		frame = new JFrame();
+
 		if (!border) {
 			frame.setUndecorated(true);
 
@@ -74,12 +72,11 @@ public class Display extends Canvas implements Runnable {
 
 		frame.setResizable(false);
 
-		frame.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
+		frame.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+
 	}
 
 	public void run() {
@@ -129,8 +126,8 @@ public class Display extends Canvas implements Runnable {
 				frames = 0;
 				ticks = 0;
 
-				frame.setTitle("FPS: "+ this.frames + " - UPS: " + this.ticks);
-				
+				frame.setTitle("FPS: " + this.frames + " - UPS: " + this.ticks);
+
 			}
 		}
 	}
@@ -158,37 +155,33 @@ public class Display extends Canvas implements Runnable {
 	public int getFramesPerSecond() {
 		return frames;
 	}
-	
+
 	private void tick() {
 		game.update();
 		input.tick();
 	}
 
 	private void render() {
-		
+
 		BufferStrategy bs = getBufferStrategy();
-		
-		if(bs == null){
+
+		if (bs == null) {
 			createBufferStrategy(3);
 			return;
 		}
-		
+
 		g = bs.getDrawGraphics();
 
-		g.setColor(Color.WHITE);
-		g.drawRect(0, 0, frame.getWidth(), frame.getHeight());
-		
-		
-		
-		game.render(g);
+		if (Game.isInitilized()) {
+			g.translate(Game.getPlayer().getOffsetX(), Game.getPlayer().getOffsetY());
+			game.render(g);
+		}
 
-
-		
 		g = getGraphics();
 		g.dispose();
 		bs.show();
 	}
-	
+
 	public InputHandler getInput() {
 		return input;
 	}

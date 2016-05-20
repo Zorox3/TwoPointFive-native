@@ -22,13 +22,17 @@ public class Chunk {
 		this.posX = posX;
 		this.posY = posY;
 
-		tiles = World.getGeneration().generateChunk(this);
 
 		this.coordCornerTL = new Point(CHUNK_SIZE * Tile.TILE_SIZE * posX, CHUNK_SIZE * Tile.TILE_SIZE * posY);
 		this.coordCornerBR = new Point(CHUNK_SIZE * Tile.TILE_SIZE * posX + CHUNK_SIZE * Tile.TILE_SIZE, CHUNK_SIZE * Tile.TILE_SIZE * posY + CHUNK_SIZE * Tile.TILE_SIZE);
 
 	}
 
+	public int generateChunk(){
+		this.tiles = World.getGeneration().generateChunk(this);
+		return tiles.size();
+	}
+	
 	public void render(Graphics g) {
 		for (Tile tile : tiles) {
 			tile.render(g);

@@ -34,7 +34,6 @@ public class WorldGeneration {
 						+ (chunk.getPosY() * Chunk.CHUNK_SIZE * Tile.TILE_SIZE);
 
 				Tile blockType;
-	
 		
 				
 				if (perlinnoise[x][y] >= 4f && perlinnoise[x][y] <= 8f) {

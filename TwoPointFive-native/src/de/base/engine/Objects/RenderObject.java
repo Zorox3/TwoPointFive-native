@@ -12,10 +12,6 @@ import de.base.engine.textures.Texture;
 
 public abstract class RenderObject extends GameObject {
 
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
 	protected Color color = null;
 	protected Texture texture = null;
 	protected BufferedImage textureImage = null;
@@ -23,10 +19,7 @@ public abstract class RenderObject extends GameObject {
 	protected Map<String, Animation> animations = new HashMap<>();
 
 	public RenderObject(int x, int y, int width, int height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		super(x, y, width, height);
 	}
 
 	public void resetAllAnimations() {
@@ -74,22 +67,6 @@ public abstract class RenderObject extends GameObject {
 
 	public void setAnimated(boolean animated) {
 		this.animated = animated;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public int getWidth() {
-		return width;
 	}
 
 	public Color getColor() {

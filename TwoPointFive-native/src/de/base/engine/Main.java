@@ -1,27 +1,24 @@
 package de.base.engine;
 
-import de.base.engine.render.Display;
-import de.base.engine.textures.ImageLoader;
-import de.base.game.Game;
+import de.base.game.StartUp;
 
 public class Main {
 
+	private static Thread sThread;
+
 	public static void main(String[] args) {
 
-		ImageLoader loader = new ImageLoader("res");
+		Main main = new Main();
+		
+		main.startGame();
 
-		if (loader.isFinish()) {
-			Display display = new Display(1600, 1000);
-			display.setSyncToFrames(60);
-			display.setVsync(false);
-			display.init();
+	}
+	
+	public void startGame() {
+		sThread = new Thread(new StartUp());
 
-			display.addGame(new Game());
-			
-			display.start();
-
-		}
-
+		sThread.start();
+		System.out.println("Thread Startup gestartet");
 	}
 
 }

@@ -1,17 +1,19 @@
-
 package de.base.engine.inputhandler;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.base.engine.render.Display;
 import de.base.game.Game;
 
-public class InputHandler implements KeyListener {
+public class InputHandler implements KeyListener, MouseListener {
 
-	public Key[] keys = new Key[8];
+	public Key[] keys = new Key[10];
 	public Key up = new Key();
 	public Key down = new Key();
 	public Key left = new Key();
@@ -21,12 +23,20 @@ public class InputHandler implements KeyListener {
 	public Key action = new Key();
 	public Key cheat = new Key();
 
+	public Key mouseleft = new Key();
+	public Key mouseright = new Key();
 	private List<GameActionListener> listeners = new ArrayList<GameActionListener>();
 	private List<GameActionListener> newListeners = new ArrayList<GameActionListener>();
-	
-	
+
 	private boolean actionPerformed;
+	public int mouseButtonPressed;
+	public Point mousePos;
 	
+
+	public InputHandler(Display display, Game game) {
+		display.addKeyListener(this);
+		display.addMouseListener(this);
+	}
 	
 	public void tick() {
 		for (int i = 0; i < keys.length; i++) {
@@ -39,14 +49,13 @@ public class InputHandler implements KeyListener {
 			actionPerformed = false;
 		}
 	}
-	
+
 	private void notifyListeners() {
 		for (int j = 0; j < keys.length; j++) {
 			if (keys[j].gotPressed()) {
 				for (int i = 0; i < listeners.size(); i++) {
-					if(!newListeners.contains(listeners.get(i))) {
-					listeners.get(i).actionPerformed(
-							new InputEvent(keys[j], InputEventType.PRESSED));
+					if (!newListeners.contains(listeners.get(i))) {
+						listeners.get(i).actionPerformed(new InputEvent(keys[j], InputEventType.PRESSED));
 					} else {
 						newListeners.remove(listeners.get(i));
 					}
@@ -54,10 +63,8 @@ public class InputHandler implements KeyListener {
 			}
 		}
 	}
-	
-	public InputHandler(Display display, Game game) {
-		display.addKeyListener(this);
-	}
+
+
 
 	public class Key {
 
@@ -100,44 +107,53 @@ public class InputHandler implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		toggleKey(e.getKeyCode(), true);
+		toggleKey(e.getKeyCode(), true, false);
 	}
 
 	public void keyReleased(KeyEvent e) {
-		toggleKey(e.getKeyCode(), false);
+		toggleKey(e.getKeyCode(), false, false);
 	}
 
 	public void keyTyped(KeyEvent e) {
 
 	}
 
-	public void toggleKey(int keyCode, boolean isPressed) {
-		
+	public void toggleKey(int keyCode, boolean isPressed, boolean isMouse) {
+
 		actionPerformed = true;
-		
-		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-			up.toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-			down.toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-			left.toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-			right.toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_SPACE) {
-			space.toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_E) {
-			action.toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_ESCAPE) {
-			esc.toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_F10) {
-			cheat.toggle(isPressed);
+
+		if (!isMouse) {
+			if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
+				up.toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
+				down.toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
+				left.toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
+				right.toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_SPACE) {
+				space.toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_E) {
+				action.toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_ESCAPE) {
+				esc.toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_F10) {
+				cheat.toggle(isPressed);
+			}
+		} else {
+			if(keyCode == MouseEvent.BUTTON1){
+				mouseleft.toggle(isPressed);
+			}
+			if(keyCode == MouseEvent.BUTTON3){
+				mouseright.toggle(isPressed);
+			}
 		}
 	}
 
@@ -158,7 +174,7 @@ public class InputHandler implements KeyListener {
 	public interface GameActionListener {
 		public abstract void actionPerformed(InputEvent event);
 	}
-	
+
 	public void addListener(GameActionListener listener) {
 		newListeners.add(listener);
 		listeners.add(listener);
@@ -166,5 +182,34 @@ public class InputHandler implements KeyListener {
 
 	public void removeListener(GameActionListener listener) {
 		listeners.remove(listener);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		this.mousePos = new Point(e.getX() - Game.getPlayer().getOffsetX(), e.getY() - Game.getPlayer().getOffsetY());
+		toggleKey(e.getButton(), true, true);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		toggleKey(e.getButton(), false, true);
 	}
 }

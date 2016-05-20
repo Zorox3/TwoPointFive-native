@@ -1,9 +1,11 @@
 package de.base.game.entities;
 
+import de.base.engine.render.Display;
 import de.base.engine.textures.Animation;
 import de.base.engine.textures.ImageLoader;
 import de.base.engine.textures.Texture;
 import de.base.game.Game;
+import de.base.game.world.Tile;
 import de.base.game.world.World;
 
 public class Player extends Entitiy {
@@ -16,8 +18,7 @@ public class Player extends Entitiy {
 	public Player(int posX, int posY, int width, int height, World world) {
 		super(posX, posY, width, height, Texture.PLACEHOLDER);
 
-		this.offsetX = x + world.getCenter().x;
-		this.offsetY = y + world.getCenter().y;
+
 
 		setTextureImage(ImageLoader.getImage(Texture.PLAYER_WALK.getName() + ":0_0"));
 
@@ -50,6 +51,9 @@ public class Player extends Entitiy {
 
 	public void update() {
 		isMoving = false;
+		
+		this.x = -offsetX + Display.instance.getWidth() / 2 - width / 2;
+		this.y = -offsetY + Display.instance.getHeight() / 2 - height / 2;
 
 		/**
 		 * WALKING ANIMATIONS START

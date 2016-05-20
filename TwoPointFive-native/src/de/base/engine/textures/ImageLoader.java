@@ -16,10 +16,8 @@ public class ImageLoader {
 
 	public boolean finish = false;
 
-	public ImageLoader(String dirPath) {
-		FileLoader f = new FileLoader(dirPath);
+	public ImageLoader() {
 
-		loadImages(f.getFiles());
 	}
 
 	private void loadImages(HashMap<String, File> files) {
@@ -72,6 +70,12 @@ public class ImageLoader {
 		}
 
 		return image;
+	}
+
+	public void load(String dirPath) {
+		FileLoader f = new FileLoader(dirPath);
+
+		loadImages(f.getFiles());
 	}
 
 }
