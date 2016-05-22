@@ -69,7 +69,7 @@ public class Display extends Canvas implements Runnable {
 
 		frame.add(this);
 		frame.pack();
-
+		requestFocus();
 		frame.setResizable(false);
 
 		frame.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);

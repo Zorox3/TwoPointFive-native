@@ -29,6 +29,8 @@ public class Game {
 
 	private JFrame display;
 	private static boolean initilized = false;
+	
+	public static boolean debubMode = true;
 
 	public Game() {
 
@@ -39,20 +41,23 @@ public class Game {
 
 		//init();
 
-	}public static boolean isInitilized() {
+	}
+
+	public static boolean isInitilized() {
 		return initilized;
 	}
 
 	public void init() {
 
-		player = new Player(display.getWidth() / 2 - Tile.TILE_SIZE / 2, display.getHeight() / 2 - Tile.TILE_SIZE, 64, 96, world);
+		player = new Player(display.getWidth() / 2 - Tile.TILE_SIZE / 2, display.getHeight() / 2 - Tile.TILE_SIZE, 64,
+				96, world);
 		objects.add(player);
-		
+
 		initilized = true;
 	}
 
 	public void update() {
-		if (initilized) {
+		if (initilized && !player.getInventory().isActive()) {
 
 			for (GameObject go : removeObjects) {
 				objects.remove(go);
@@ -61,14 +66,15 @@ public class Game {
 			for (GameObject go : objects) {
 				if (go.getRemove()) {
 					removeObjects.add(go);
-				}
-				go.update();
+				} else
+					go.update();
 			}
 		}
 	}
 
 	public void render(Graphics g) {
 		if (initilized) {
+			
 			for (Chunk chunk : world.getChunks()) {
 				if (!chunk.onDisplay()) continue;
 				chunk.render(g);

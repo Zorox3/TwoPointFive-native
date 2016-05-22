@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.base.engine.Objects.RenderObject;
+import de.base.engine.inputhandler.InputHandler;
 import de.base.engine.inputhandler.InputHandler.GameActionListener;
 import de.base.engine.inputhandler.InputHandler.InputEvent;
 import de.base.engine.inputhandler.InputHandler.InputEventType;
@@ -14,12 +15,13 @@ import de.base.engine.textures.Texture;
 import de.base.game.Game;
 import de.base.game.entities.items.Item;
 import de.base.game.entities.items.Wood;
+import de.base.game.entities.items.inventory.ItemStack;
 
 public class Tile extends RenderObject implements GameActionListener {
 
 	public static final int TILE_SIZE = 64;
 
-	private List<Item> items = new ArrayList<>();
+	private ItemStack items;
 
 	private BufferedImage renderImage;
 
@@ -28,7 +30,9 @@ public class Tile extends RenderObject implements GameActionListener {
 
 		setTexture(texture);
 
-		Game.input.addListener(this);
+		items = new ItemStack();
+		
+		InputHandler.addListener(this);
 	}
 
 	public void render(Graphics g) {
@@ -36,7 +40,7 @@ public class Tile extends RenderObject implements GameActionListener {
 	}
 
 	public void addItem(Item item) {
-		items.add(item);
+		items.addItem(item);
 
 		createRenderImage();
 	}
@@ -46,9 +50,7 @@ public class Tile extends RenderObject implements GameActionListener {
 		Graphics2D g2 = renderImage.createGraphics();
 
 		g2.drawImage(texture.getTexture(), 0, 0, width, height, null);
-		for (Item i : items) {
-			g2.drawImage(i.getTexture().getTexture(), (TILE_SIZE >> 2) + Game.globalRandom.nextInt(10), (TILE_SIZE >> 2) + Game.globalRandom.nextInt(10), TILE_SIZE / 2, TILE_SIZE / 2, null);
-		}
+		items.render(g2);
 
 		g2.dispose();
 		setTextureImage(renderImage);
@@ -56,7 +58,7 @@ public class Tile extends RenderObject implements GameActionListener {
 
 	public Item removeItem(Item item) {
 		Item toRemove = null;
-		for (Item i : items) {
+		for (Item i : items.getItemList()) {
 			if (item.getClass().isInstance(i)) {
 				toRemove = i;
 				break;
@@ -72,7 +74,7 @@ public class Tile extends RenderObject implements GameActionListener {
 
 	@Override
 	public void actionPerformed(InputEvent event) {
-		if (contains(Game.input.mousePos)) {
+		if (contains(Game.input.mousePos) && !Game.getPlayer().getInventory().isActive()) {
 			if (event.key.id == Game.input.mouseleft.id && event.type == InputEventType.PRESSED) {
 				addItem(new Wood());
 			}

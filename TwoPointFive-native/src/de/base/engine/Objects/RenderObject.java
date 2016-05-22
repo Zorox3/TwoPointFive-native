@@ -12,6 +12,7 @@ import de.base.engine.textures.Texture;
 
 public abstract class RenderObject extends GameObject {
 
+	private static final long serialVersionUID = 1L;
 	protected Color color = null;
 	protected Texture texture = null;
 	protected BufferedImage textureImage = null;
