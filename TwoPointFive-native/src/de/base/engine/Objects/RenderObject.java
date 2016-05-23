@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import de.base.engine.textures.Animation;
 import de.base.engine.textures.Texture;
+import de.base.game.Game;
 
 public abstract class RenderObject extends GameObject {
 
@@ -54,7 +55,10 @@ public abstract class RenderObject extends GameObject {
 			g.fillRect(x, y, width, height);
 		} else if (textureImage != null) {
 			g.drawImage(textureImage, x, y, width, height, null);
-
+		}
+		if (Game.debubModeBounding) {
+			g.setColor(Color.RED);
+			g.drawRect(x, y, width, height);
 		}
 	}
 

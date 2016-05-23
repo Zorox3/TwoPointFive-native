@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public enum Texture {
 
-	PLACEHOLDER("placeholder"), GRASS("grass"), STONE("stone"), SAND("sand"), DIRT("dirt"), PLAYER_WALK("player_walk", true, 4, 8, 64, 96), ITEM_WOOD("wood"), GUI_INVENTORY("inventory");
+	PLACEHOLDER("placeholder"), GRASS("grass"), STONE("stone"), SAND("sand"), DIRT("dirt"), PLAYER_WALK("player_walk", true, 4, 8, 64, 96), ITEM_WOOD("wood"), GUI_INVENTORY("inventory"), GRASS_CORNER("grass_corner"), GRASS_STRAIGHT("grass_straight"), TREE_01("tree01");
 
 	private String name;
 	private boolean isSprite;

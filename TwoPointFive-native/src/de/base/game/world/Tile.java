@@ -1,11 +1,7 @@
 package de.base.game.world;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.base.engine.Objects.RenderObject;
 import de.base.engine.inputhandler.InputHandler;
@@ -35,15 +31,17 @@ public class Tile extends RenderObject implements GameActionListener {
 
 		InputHandler.addListener(this);
 	}
+	
+	public Tile(int x, int y ,int width, int height, Texture texture) {
+		super(x, y, width, height);
 
-	public void render(Graphics g) {
-		g.drawImage(textureImage, x, y, width, height, null);
-		
-		if (Game.debubModeBounding) {
-			g.setColor(Color.RED);
-			g.drawRect(x, y, width, height);
-		}
+		setTexture(texture);
+
+		items = new ItemStack();
+
+		InputHandler.addListener(this);
 	}
+
 
 	public void addItem(Item item) {
 		items.addItem(item);

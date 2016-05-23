@@ -50,6 +50,7 @@ public class WorldGeneration {
 					blockType = new Dirt(tx, ty);
 				}
 				
+				
 				//System.out.println("TILE TYPE: " + blockType.getTexture().getName() + " > X: " + tx + " Y: " +ty);
 
 				
