@@ -1,5 +1,6 @@
 package de.base.game.world;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -31,12 +32,17 @@ public class Tile extends RenderObject implements GameActionListener {
 		setTexture(texture);
 
 		items = new ItemStack();
-		
+
 		InputHandler.addListener(this);
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(textureImage, x, y , width, height, null);
+		g.drawImage(textureImage, x, y, width, height, null);
+		
+		if (Game.debubModeBounding) {
+			g.setColor(Color.RED);
+			g.drawRect(x, y, width, height);
+		}
 	}
 
 	public void addItem(Item item) {
@@ -72,6 +78,10 @@ public class Tile extends RenderObject implements GameActionListener {
 		return null;
 	}
 
+	public ItemStack getItemStack() {
+		return items;
+	}
+
 	@Override
 	public void actionPerformed(InputEvent event) {
 		if (contains(Game.input.mousePos) && !Game.getPlayer().getInventory().isActive()) {
@@ -82,5 +92,10 @@ public class Tile extends RenderObject implements GameActionListener {
 				removeItem(new Wood());
 			}
 		}
+	}
+
+	public void clearItemStack() {
+		items = new ItemStack();
+		createRenderImage();
 	}
 }

@@ -3,6 +3,7 @@ package de.base.engine.render;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
@@ -18,6 +19,9 @@ public class Display extends Canvas implements Runnable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
+
+	
 	public static Display instance;
 	private boolean vsync = true;
 	private int syncToFrames = 30;
@@ -171,7 +175,8 @@ public class Display extends Canvas implements Runnable {
 		}
 
 		g = bs.getDrawGraphics();
-
+		g.setFont(DEFAULT_FONT);
+		
 		if (Game.isInitilized()) {
 			g.translate(Game.getPlayer().getOffsetX(), Game.getPlayer().getOffsetY());
 			game.render(g);

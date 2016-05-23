@@ -1,5 +1,6 @@
 package de.base.game.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import de.base.engine.inputhandler.InputHandler;
@@ -10,8 +11,10 @@ import de.base.engine.textures.Animation;
 import de.base.engine.textures.ImageLoader;
 import de.base.engine.textures.Texture;
 import de.base.game.Game;
+import de.base.game.entities.items.Wood;
 import de.base.game.entities.items.inventory.Inventory;
 import de.base.game.entities.items.inventory.Slot;
+import de.base.game.world.Chunk;
 import de.base.game.world.Tile;
 import de.base.game.world.World;
 
@@ -37,14 +40,16 @@ public class Player extends Entitiy implements GameActionListener {
 
 		inventory = new Inventory("Gui_invP01", 0, 0, 528, 498, Texture.GUI_INVENTORY);
 		for (int x = 0; x < 9; x++) {
-			new Slot((x+1),24 + x*(6 + Slot.SLOT_SIZE), 426, inventory);
+			new Slot((x + 1), 24 + x * (6 + Slot.SLOT_SIZE), 426, inventory);
 		}
-		
+
 		for (int y = 0; y < 3; y++) {
 			for (int x = 0; x < 9; x++) {
-				new Slot((y+1)*(x+1) + 9,24 + x*(6 + Slot.SLOT_SIZE), 252 + y*(6 + Slot.SLOT_SIZE), inventory);
+				new Slot((y + 1) * (x + 1) + 9, 24 + x * (6 + Slot.SLOT_SIZE), 252 + y * (6 + Slot.SLOT_SIZE), inventory);
 			}
 		}
+
+		inventory.addItemToSlot(3, new Wood());
 
 	}
 
@@ -72,6 +77,10 @@ public class Player extends Entitiy implements GameActionListener {
 	public void render(Graphics g) {
 		super.render(g);
 		inventory.render(g);
+		if (Game.debubModeBounding) {
+			g.setColor(Color.RED);
+			g.drawRect(x, y, width, height);
+		}
 	}
 
 	public void update() {
@@ -138,6 +147,29 @@ public class Player extends Entitiy implements GameActionListener {
 		/**
 		 * WALKING ANIMATION END
 		 */
+
+		if (Chunk.playerChunk != null) {
+			for (Tile t : Chunk.playerChunk.getTiles()) {
+				if (t.getItemStack().getItemList().size() > 0) if (intersects(t)) {
+					System.out.println(t.getCenterX());
+
+					pickUpItemFromTile(t);
+					break;
+				}
+			}
+		}
+
+	}
+
+	private void pickUpItemFromTile(Tile t) {
+
+		Slot s = inventory.getNextFreeSlot();
+		if (s != null) {
+			s.addItemStack(t.getItemStack());
+			t.clearItemStack();
+			
+		}
+
 	}
 
 	public Inventory getInventory() {

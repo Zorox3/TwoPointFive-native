@@ -6,16 +6,16 @@ import java.awt.Rectangle;
 import de.base.game.Game;
 import de.base.game.entities.Player;
 
-public abstract class GameObject extends Rectangle{
+public abstract class GameObject extends Rectangle {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	protected int x;
 	protected int y;
 
 	public int finalPosX;
 	public int finalPosY;
-	
+
 	protected int width;
 	protected int height;
 
@@ -26,7 +26,7 @@ public abstract class GameObject extends Rectangle{
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		
+
 		setBounds(x, y, width, height);
 	}
 
@@ -44,6 +44,14 @@ public abstract class GameObject extends Rectangle{
 
 	public boolean getRemove() {
 		return remove;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

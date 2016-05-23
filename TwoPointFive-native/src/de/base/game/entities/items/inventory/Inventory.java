@@ -9,6 +9,7 @@ import java.util.List;
 import de.base.engine.render.Display;
 import de.base.engine.textures.Texture;
 import de.base.game.Game;
+import de.base.game.entities.items.Item;
 
 public class Inventory extends Rectangle {
 
@@ -34,7 +35,30 @@ public class Inventory extends Rectangle {
 	public void addSlot(Slot s) {
 		inventorySlots.add(s);
 	}
+	
+	public void addItemToSlot(int id, Item item){
+		Slot ts = getSlotById(id);
+		ts.addItem(item);
+	}
+	
+	public Slot getNextFreeSlot(){
+		for(Slot s : inventorySlots){
+			if(s.getItemStack().getItemList().size() == 0){
+				return s;
+			}
+		}
+		return null;
+	}
 
+	private Slot getSlotById(int id){
+		for(Slot s : inventorySlots){
+			if(s.getId() == id){
+				return s;
+			}
+		}
+		return null;
+	}
+	
 	public void render(Graphics g) {
 		if (isActive) {
 			g.setColor(new Color(50, 50, 50, 150));

@@ -31,6 +31,7 @@ public class Game {
 	private static boolean initilized = false;
 	
 	public static boolean debubMode = true;
+	public static boolean debubModeBounding = false;
 
 	public Game() {
 
