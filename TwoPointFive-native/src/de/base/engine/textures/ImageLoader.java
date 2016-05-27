@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import de.base.engine.util.FileLoader;
+import de.base.game.Game;
 import de.base.game.world.Tile;
 
 public class ImageLoader {
@@ -27,16 +28,11 @@ public class ImageLoader {
 
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			try {
-				System.out.println("IMAGE LOADED: " + entry.getKey());
+				if (Game.debubMode) System.out.println("IMAGE LOADED: " + entry.getKey());
 				if (entry.getKey().startsWith("sprite_")) {
 					loadAsSprite(entry.getKey(), ImageIO.read(entry.getValue()));
 				} else {
-					BufferedImage bi = new BufferedImage(Tile.TILE_SIZE, Tile.TILE_SIZE, BufferedImage.TYPE_INT_RGB);
-					Graphics2D g2 = (Graphics2D) bi.getGraphics();
-					g2.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
-					g2.drawImage(ImageIO.read(entry.getValue()), 0, 0, Tile.TILE_SIZE, Tile.TILE_SIZE, null);
-
-					imageList.put(entry.getKey(), bi);
+					imageList.put(entry.getKey(), ImageIO.read(entry.getValue()));
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -52,9 +48,8 @@ public class ImageLoader {
 		for (int rows = 0; rows < t.getRows(); rows++) {
 			for (int i = 0; i < t.getCols(); i++) {
 				String imageName = newKey + ":" + rows + "_" + i;
-				imageList.put(imageName, read.getSubimage(i * t.getWidth(), t.getHeight() * rows, t.getWidth(), t.getHeight()));
-				System.out.println("IMAGE FROM SPRITE: " + key + " -> " + imageName);
-
+				imageList.put(imageName, read.getSubimage(i * t.getWidth() + t.getOffsetX(), t.getHeight() * rows + t.getOffsetY(), t.getWidth(), t.getHeight()));
+				if (Game.debubMode) System.out.println("IMAGE FROM SPRITE: " + key + " -> " + imageName);
 			}
 		}
 
@@ -70,10 +65,8 @@ public class ImageLoader {
 
 	public static BufferedImage getImage(String filename) {
 		BufferedImage image = imageList.get(Texture.PLACEHOLDER.getName());
-		//		BufferedImage image  = imageList.get(filename);
 		if (imageList.containsKey(filename)) {
 			image = imageList.get(filename);
-
 		} else {
 			System.err.println("File not found! -> " + filename);
 		}

@@ -21,6 +21,8 @@ public class Tile extends RenderObject implements GameActionListener {
 	private ItemStack items;
 
 	private BufferedImage renderImage;
+	
+	public boolean hasChanged = false;
 
 	public Tile(int x, int y, Texture texture) {
 		super(x, y, TILE_SIZE, TILE_SIZE);
@@ -53,7 +55,7 @@ public class Tile extends RenderObject implements GameActionListener {
 		renderImage = new BufferedImage(texture.getTexture().getWidth(), texture.getTexture().getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = renderImage.createGraphics();
 
-		g2.drawImage(texture.getTexture(), 0, 0, width, height, null);
+		g2.drawImage(textureImage, 0, 0, width, height, null);
 		items.render(g2);
 
 		g2.dispose();

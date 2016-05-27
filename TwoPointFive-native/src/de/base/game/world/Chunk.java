@@ -34,7 +34,10 @@ public class Chunk extends Rectangle {
 	}
 
 	public int generateChunk() {
-		this.tiles = World.getGeneration().generateChunk(this);
+		this.tiles = World.getGeneration().generateRawChunk(this);
+		World.getGeneration().smoothChunk(this);
+
+		
 		return tiles.size();
 	}
 
