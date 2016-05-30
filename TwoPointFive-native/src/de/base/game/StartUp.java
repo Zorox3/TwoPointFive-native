@@ -1,6 +1,7 @@
 package de.base.game;
 
 import de.base.engine.render.Display;
+import de.base.engine.sound.SoundLoader;
 import de.base.engine.textures.ImageLoader;
 import de.base.game.world.World;
 
@@ -17,6 +18,9 @@ public class StartUp implements Runnable{
 		loader.load("res/textures");
 		loader.load("res/items");
 		loader.load("res/gui");
+		SoundLoader sLoader = new SoundLoader();
+		sLoader.load("res/sounds");
+		
 
 		//Thread.sleep(100);
 

@@ -7,6 +7,7 @@ import de.base.engine.inputhandler.InputHandler;
 import de.base.engine.inputhandler.InputHandler.GameActionListener;
 import de.base.engine.inputhandler.InputHandler.InputEvent;
 import de.base.engine.render.Display;
+import de.base.engine.sound.SoundLoader;
 import de.base.engine.textures.Animation;
 import de.base.engine.textures.ImageLoader;
 import de.base.engine.textures.Texture;
@@ -143,7 +144,8 @@ public class Player extends Entitiy implements GameActionListener {
 
 		if (!isMoving) {
 			resetAllAnimations();
-		}
+			SoundLoader.stop("footsteps");
+		}else SoundLoader.start("footsteps");
 		/**
 		 * WALKING ANIMATION END
 		 */

@@ -1,7 +1,5 @@
 package de.base.engine.textures;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +10,6 @@ import javax.imageio.ImageIO;
 
 import de.base.engine.util.FileLoader;
 import de.base.game.Game;
-import de.base.game.world.Tile;
 
 public class ImageLoader {
 
