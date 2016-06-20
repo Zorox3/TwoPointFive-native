@@ -49,9 +49,6 @@ public class Player extends Entitiy implements GameActionListener {
 				new Slot((y + 1) * (x + 1) + 9, 24 + x * (6 + Slot.SLOT_SIZE), 252 + y * (6 + Slot.SLOT_SIZE), inventory);
 			}
 		}
-
-		inventory.addItemToSlot(3, new Wood());
-
 	}
 
 	public void addOffsetX(int x) {
@@ -71,7 +68,7 @@ public class Player extends Entitiy implements GameActionListener {
 	}
 
 	private int getSpeed() {
-		return 7;
+		return 6;
 	}
 
 	@Override
@@ -145,7 +142,8 @@ public class Player extends Entitiy implements GameActionListener {
 		if (!isMoving) {
 			resetAllAnimations();
 			SoundLoader.stop("footsteps");
-		}else SoundLoader.start("footsteps");
+		} else
+			SoundLoader.start("footsteps");
 		/**
 		 * WALKING ANIMATION END
 		 */
@@ -169,7 +167,7 @@ public class Player extends Entitiy implements GameActionListener {
 		if (s != null) {
 			s.addItemStack(t.getItemStack());
 			t.clearItemStack();
-			
+
 		}
 
 	}

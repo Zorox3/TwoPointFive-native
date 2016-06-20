@@ -38,7 +38,7 @@ public class SoundLoader {
 				temp.open(ais);
 
 				soundList.put(entry.getKey(), temp);
-				if (Game.debubMode) System.out.println("Sound " + entry.getKey() + " loaded");
+				if (Game.debubMode) System.err.println("SOUND LOADED: " + entry.getKey());
 
 			} catch (UnsupportedAudioFileException e) {
 				e.printStackTrace();
@@ -52,13 +52,15 @@ public class SoundLoader {
 	}
 
 	public static void start(String name) {
-		Clip t = soundList.get(name);
-		
-		if(t.getFrameLength() == t.getFramePosition()){
-			t.setFramePosition(0);
+		if(Game.sound){
+			Clip t = soundList.get(name);
+			
+			if(t.getFrameLength() == t.getFramePosition()){
+				t.setFramePosition(0);
+			}
+			
+			if(!t.isRunning()) t.start();
 		}
-		
-		if(!t.isRunning()) t.start();
 	}
 
 	public static void stop(String name) {

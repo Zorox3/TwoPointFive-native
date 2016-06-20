@@ -25,7 +25,7 @@ public class ImageLoader {
 
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			try {
-				if (Game.debubMode) System.out.println("IMAGE LOADED: " + entry.getKey());
+				if (Game.debubMode) System.err.println("IMAGE LOADED: " + entry.getKey());
 				if (entry.getKey().startsWith("sprite_")) {
 					loadAsSprite(entry.getKey(), ImageIO.read(entry.getValue()));
 				} else {
@@ -46,7 +46,7 @@ public class ImageLoader {
 			for (int i = 0; i < t.getCols(); i++) {
 				String imageName = newKey + ":" + rows + "_" + i;
 				imageList.put(imageName, read.getSubimage(i * t.getWidth() + t.getOffsetX(), t.getHeight() * rows + t.getOffsetY(), t.getWidth(), t.getHeight()));
-				if (Game.debubMode) System.out.println("IMAGE FROM SPRITE: " + key + " -> " + imageName);
+				if (Game.debubMode) System.err.println("IMAGE FROM SPRITE: " + key + " -> " + imageName);
 			}
 		}
 

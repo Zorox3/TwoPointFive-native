@@ -22,9 +22,11 @@ public class Tile extends RenderObject implements GameActionListener {
 
 	private BufferedImage renderImage;
 	
+	protected static int worldColor = 0x000000;
+	
 	public boolean hasChanged = false;
 
-	public Tile(int x, int y, Texture texture) {
+	public Tile(int x, int y, Texture texture, int color) {
 		super(x, y, TILE_SIZE, TILE_SIZE);
 
 		setTexture(texture);
@@ -51,6 +53,10 @@ public class Tile extends RenderObject implements GameActionListener {
 		createRenderImage();
 	}
 
+	public static int getWorldColor() {
+		return worldColor;
+	}
+	
 	private void createRenderImage() {
 		renderImage = new BufferedImage(texture.getTexture().getWidth(), texture.getTexture().getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = renderImage.createGraphics();

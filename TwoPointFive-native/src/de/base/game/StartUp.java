@@ -15,10 +15,18 @@ public class StartUp implements Runnable{
 
 	private void start() {
 		ImageLoader loader = new ImageLoader();
+		SoundLoader sLoader = new SoundLoader();
+
+		//IMAGES
 		loader.load("res/textures");
 		loader.load("res/items");
 		loader.load("res/gui");
-		SoundLoader sLoader = new SoundLoader();
+
+		//WORLD
+		loader.load("res/world");
+
+		
+		//SOUNDS
 		sLoader.load("res/sounds");
 		
 
@@ -41,6 +49,7 @@ public class StartUp implements Runnable{
 		new Thread("World Generation Thread"){			
 			@Override
 			public void run(){
+				if(Game.debubMode) System.out.println(this.getName() + " started");
 				game.world = new World();
 				for (int x = 0; x < World.WORLD_SIZE; x++) {
 					for (int y = 0; y < World.WORLD_SIZE; y++) {
@@ -58,9 +67,9 @@ public class StartUp implements Runnable{
 	}
 	private void intiMenu() {
 
+		//replace with mainmenu
 		game.init();
-		
-
+	
 		
 	}
 }

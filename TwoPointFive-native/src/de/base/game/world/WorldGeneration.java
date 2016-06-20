@@ -1,7 +1,7 @@
 package de.base.game.world;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 
 import de.base.engine.textures.ImageLoader;
 import de.base.engine.textures.Texture;
@@ -16,10 +16,17 @@ public class WorldGeneration {
 	private float[][] whitenosie;
 	private float[][] perlinnoise;
 
+	private BufferedImage worldImage;
+	private Tile[] tiles;
+	public int width;
+	public int height;
+	
 	public WorldGeneration(World world) {
 
+	worldImage = ImageLoader.getImage("world");	
+		
 	}
-
+	
 	public void smoothChunk(Chunk chunk) {
 
 		for (Tile tile : chunk.getTiles()) {
@@ -157,6 +164,10 @@ public class WorldGeneration {
 
 		return tiles;
 	}
+	
+	
+
+	
 
 	//	private Chunk placeBlockCross(Chunk chunk, int x, int y, Tile tile) {
 	//

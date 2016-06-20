@@ -32,6 +32,7 @@ public class Game {
 	
 	public static boolean debubMode = true;
 	public static boolean debubModeBounding = false;
+	public static boolean sound = false;
 
 	public Game() {
 

@@ -6,7 +6,7 @@ import de.base.game.world.Tile;
 public class Grass extends Tile{
 
 	public Grass(int x, int y) {
-		super(x, y, Texture.GRASS);
+		super(x, y, Texture.GRASS, 0x00ff00);
 	}
 
 }

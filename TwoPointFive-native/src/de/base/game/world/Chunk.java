@@ -113,4 +113,10 @@ public class Chunk extends Rectangle {
 	public void add(Tile e) {
 		tiles.add(e);
 	}
+	public Point getCoordCornerBR() {
+		return coordCornerBR;
+	}
+	public Point getCoordCornerTL() {
+		return coordCornerTL;
+	}
 }
